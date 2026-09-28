@@ -31,6 +31,7 @@ flow (order → admin advances it → customer tracker moves) works out of the b
 | `npm run lint` | ESLint |
 | `npm run verify:schema` | runs `supabase/schema.sql` against a real Postgres and checks it |
 | `npm run verify` | all three |
+| `npm run setup` | builds the Supabase database from `.env.local` (see [DEPLOY.md](DEPLOY.md)) |
 
 To reset the demo shop to its seed state: `rm -rf .data public/uploads`.
 
@@ -57,10 +58,13 @@ renaming an rpc argument were each confirmed to make it fail.
 
 ## Going live
 
-**[DEPLOY.md](DEPLOY.md)** is the step-by-step checklist, with a generated
-session secret and the post-deploy smoke test. The short version:
+**[DEPLOY.md](DEPLOY.md)** is the checklist: make a Supabase project, run
+`npm run setup`, import to Vercel. The details below are for reference.
 
 ## Going live on Supabase
+
+`npm run setup` does steps 1 and 2 for you, and verifies the result against the
+live database. By hand:
 
 1. Create a project, then run `supabase/schema.sql` against it (SQL editor, or
    `psql "$DATABASE_URL" -f supabase/schema.sql`). It creates the tables, the

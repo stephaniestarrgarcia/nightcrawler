@@ -9,11 +9,13 @@
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
     "verify:schema": "node scripts/verify-schema.mjs",
-    "verify": "npm run typecheck && npm run lint && npm run verify:schema"
+    "verify": "npm run typecheck && npm run lint && npm run verify:schema",
+    "setup": "node scripts/setup-supabase.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.45.4",
     "next": "^15.5.25",
+    "pg": "^8.23.0",
     "react": "19.0.0",
     "react-dom": "19.0.0",
     "server-only": "^0.0.1",
@@ -21,7 +23,9 @@
   },
   "devDependencies": {
     "@electric-sql/pglite": "^0.5.8",
+    "@electric-sql/pglite-socket": "^0.2.11",
     "@types/node": "^22.10.5",
+    "@types/pg": "^8.23.1",
     "@types/react": "^19.0.7",
     "@types/react-dom": "^19.0.3",
     "eslint": "^9.39.5",
