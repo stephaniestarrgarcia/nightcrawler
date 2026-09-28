@@ -7,6 +7,18 @@
 
 create extension if not exists "pgcrypto";
 
+-- Supabase provisions these roles; create them when absent so this file also
+-- runs unedited against a plain Postgres (local dev, CI, self-hosted).
+do $$
+begin
+  if not exists (select 1 from pg_roles where rolname = 'anon') then
+    create role anon nologin noinherit;
+  end if;
+  if not exists (select 1 from pg_roles where rolname = 'authenticated') then
+    create role authenticated nologin noinherit;
+  end if;
+end $$;
+
 -- --- tables ----------------------------------------------------------------
 
 create table if not exists locations (

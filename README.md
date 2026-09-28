@@ -29,10 +29,31 @@ flow (order → admin advances it → customer tracker moves) works out of the b
 | `npm run build` / `npm start` | production build and serve |
 | `npm run typecheck` | `tsc --noEmit` |
 | `npm run lint` | ESLint |
+| `npm run verify:schema` | runs `supabase/schema.sql` against a real Postgres and checks it |
+| `npm run verify` | all three |
 
 To reset the demo shop to its seed state: `rm -rf .data public/uploads`.
 
 ---
+
+## Verifying the database
+
+`npm run verify:schema` runs `supabase/schema.sql` against a real Postgres
+(PGlite — Postgres compiled to WASM, a dev dependency, no server to install) and
+then exercises it: the seed, every CHECK constraint, `next_order_number`, the
+version triggers the live-update poll depends on, `rsvp_event`'s
+upsert-and-count, `add_subscriber`'s array merge, and RLS — including asserting
+that orders, the RSVP door list and subscribers are **not** readable with the
+anon key.
+
+It also checks the Supabase driver against that schema: every table, function,
+rpc argument name and written column it references must exist, plus the FK that
+`select('*, items:order_items(*)')` needs and the composite key
+`product_status` upserts on. A rename on one side and not the other fails here
+rather than in production.
+
+The suite is mutation-tested — dropping a column, leaking orders to `anon` and
+renaming an rpc argument were each confirmed to make it fail.
 
 ## Going live on Supabase
 
