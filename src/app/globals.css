@@ -1,0 +1,241 @@
+/* ===========================================================================
+   Nightcrawler — design tokens and the shared primitives.
+   Radius is 0 everywhere and there are no shadows outside the hero glow;
+   both are load-bearing parts of the identity, not defaults left unset.
+   =========================================================================== */
+
+:root {
+  --bg: #0e0b09;
+  --card: #17120f;
+  --hairline: #241b15;
+  --umber: #3a2620;
+  --cigar: #8f5a4a;
+  --accent: #e8382f;
+  --bone: #ece9df;
+  --bone-muted: #b5aea2;
+  --ash: #8a857a;
+  --ash-dim: #5c554c;
+  --live: #7dc98f;
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--bone);
+  font-family: var(--font-sans), 'Space Grotesk', sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: var(--bone); text-decoration: none; }
+a:hover { color: var(--accent); }
+
+button, input, textarea, select { font-family: inherit; border-radius: 0; }
+
+/* --- motion -------------------------------------------------------------- */
+@keyframes nc-glow { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
+@keyframes nc-rise { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes nc-rise-sm { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes nc-drift { from { transform: translateX(0) rotate(-4deg); } to { transform: translateX(-50%) rotate(-4deg); } }
+@keyframes nc-pulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(232, 56, 47, 0.5); } 50% { box-shadow: 0 0 0 8px rgba(232, 56, 47, 0); } }
+
+.nc-rise { animation: nc-rise 1s ease both; }
+.nc-rise-sm { animation: nc-rise-sm 0.6s ease both; }
+.nc-pulse { animation: nc-pulse 2s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* --- type ---------------------------------------------------------------- */
+.nc-display {
+  font-family: var(--font-display), 'Pinyon Script', cursive;
+  color: var(--accent);
+  line-height: 1;
+}
+
+.nc-eyebrow {
+  font-size: 11px;
+  color: var(--cigar);
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+}
+
+/* --- buttons ------------------------------------------------------------- */
+.nc-btn {
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  padding: 17px;
+  cursor: pointer;
+  border: none;
+  transition: background 0.25s, color 0.25s, border-color 0.25s;
+}
+
+.nc-btn-primary { background: var(--accent); color: var(--card); }
+.nc-btn-primary:hover:not(:disabled) { background: var(--bone); }
+.nc-btn:disabled { background: var(--umber); color: var(--ash); cursor: not-allowed; }
+
+.nc-btn-secondary {
+  background: none;
+  border: 1px solid var(--umber);
+  color: var(--bone);
+  font-weight: 500;
+}
+.nc-btn-secondary:hover:not(:disabled) { border-color: var(--accent); color: var(--accent); }
+
+/* Menu + merch "Add to bag": fills vermilion instead of just outlining. */
+.nc-btn-add {
+  background: none;
+  border: 1px solid var(--umber);
+  color: var(--bone);
+  font-weight: 500;
+}
+.nc-btn-add:hover { background: var(--accent); border-color: var(--accent); color: var(--card); }
+
+.nc-btn-notify {
+  background: none;
+  border: 1px dashed var(--umber);
+  color: var(--ash);
+  font-weight: 500;
+}
+.nc-btn-notify:hover { border-color: var(--cigar); color: var(--bone); }
+
+.nc-btn-ghost {
+  background: none;
+  border: none;
+  color: var(--ash);
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  padding: 6px;
+  cursor: pointer;
+}
+.nc-btn-ghost:hover { color: var(--bone); }
+
+.nc-btn-dashed {
+  background: var(--card);
+  border: 1px dashed var(--umber);
+  color: var(--ash);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 18px;
+  cursor: pointer;
+}
+.nc-btn-dashed:hover { border-color: var(--accent); color: var(--accent); }
+
+/* Segmented controls: Live / Sold out / Hidden, filters, Pickup / Delivery. */
+.nc-seg {
+  flex: 1;
+  border: 1px solid var(--umber);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 11px 4px;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.nc-icon-btn {
+  background: none;
+  border: 1px solid var(--umber);
+  color: var(--ash);
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s;
+}
+.nc-icon-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+/* --- forms --------------------------------------------------------------- */
+.nc-input {
+  background: var(--bg);
+  border: 1px solid var(--umber);
+  color: var(--bone);
+  font-size: 13px;
+  padding: 13px 14px;
+  outline: none;
+  width: 100%;
+  transition: border-color 0.2s;
+}
+.nc-input:focus-visible { border-color: var(--accent); }
+.nc-input::placeholder { color: var(--ash-dim); }
+.nc-input--lg { font-size: 14px; padding: 15px 16px; }
+
+textarea.nc-input { resize: vertical; line-height: 1.5; }
+
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* --- cards --------------------------------------------------------------- */
+.nc-card {
+  background: var(--card);
+  border: 1px solid var(--hairline);
+  display: flex;
+  flex-direction: column;
+}
+
+.nc-card--lift { transition: border-color 0.3s, transform 0.3s; }
+.nc-card--lift:hover { border-color: var(--cigar); transform: translateY(-4px); }
+
+.nc-event-row { transition: background 0.2s; }
+.nc-event-row:hover { background: rgba(232, 56, 47, 0.04); }
+
+/* --- responsive ---------------------------------------------------------- */
+.nc-grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.nc-grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+
+.nc-section { padding: 90px 40px; max-width: 1240px; margin: 0 auto; }
+
+@media (max-width: 1080px) {
+  .nc-grid-4 { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 900px) {
+  .nc-events { grid-template-columns: 1fr !important; gap: 36px !important; }
+  .nc-feed { grid-template-columns: 1fr !important; gap: 48px !important; }
+  .nc-reviews { grid-template-columns: 1fr !important; gap: 32px !important; padding: 32px !important; }
+  .nc-grid-4 { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 800px) {
+  .nc-nav-links { display: none !important; }
+  .nc-nav-toggle { display: flex !important; }
+  .nc-section { padding: 64px 20px; }
+  .nc-nav-inner { padding: 0 20px !important; }
+  /* The wordmark is rotated and unwrappable — shrink it so it cannot collide
+     with the bag button on a narrow phone. */
+  .nc-nav-word { font-size: 22px !important; }
+}
+
+@media (max-width: 720px) {
+  .nc-grid-3 { grid-template-columns: 1fr; }
+  .nc-hero-word { font-size: 68px !important; }
+  .nc-title { font-size: 44px !important; }
+  .nc-event-row { grid-template-columns: 64px 1fr !important; gap: 16px !important; }
+  .nc-event-row .nc-rsvp { grid-column: 2; justify-self: start; }
+}
+
+@media (max-width: 560px) {
+  .nc-grid-4 { grid-template-columns: 1fr; }
+  .nc-locations { grid-template-columns: 1fr !important; }
+}
+
+@media (max-width: 480px) {
+  .nc-drawer { width: 100% !important; max-width: 100% !important; }
+  .nc-gate-word { font-size: 52px !important; }
+  .nc-hero-word { font-size: 54px !important; }
+  .nc-title { font-size: 36px !important; }
+  .nc-nav-word { font-size: 20px !important; }
+}
