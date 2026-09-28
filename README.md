@@ -55,6 +55,11 @@ rather than in production.
 The suite is mutation-tested — dropping a column, leaking orders to `anon` and
 renaming an rpc argument were each confirmed to make it fail.
 
+## Going live
+
+**[DEPLOY.md](DEPLOY.md)** is the step-by-step checklist, with a generated
+session secret and the post-deploy smoke test. The short version:
+
 ## Going live on Supabase
 
 1. Create a project, then run `supabase/schema.sql` against it (SQL editor, or
