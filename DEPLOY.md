@@ -55,9 +55,19 @@ Don't change any build settings. Before you hit Deploy, add these under
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | same as in `.env.local` |
 | `SUPABASE_SERVICE_ROLE_KEY` | same as in `.env.local` |
 | `SUPABASE_STORAGE_BUCKET` | `products` |
-| `ADMIN_PIN` | `<choose 4 digits>` (or any 4 digits you like) |
-| `ADMIN_SESSION_SECRET` | `<generate-your-own-see-below>` |
+| `ADMIN_PIN` | any 4 digits you'll remember |
+| `ADMIN_SESSION_SECRET` | run the command below and paste the result |
 | `NEXT_PUBLIC_SITE_URL` | your web address, e.g. `https://nightcrawler.com` |
+
+For the secret, run this and paste what it prints:
+
+```bash
+openssl rand -hex 32
+```
+
+> Paste that straight into Vercel. Don't save it into a file here — anything in
+> this folder can end up on GitHub, and that value is what stops someone forging
+> an admin login.
 
 Hit **Deploy**. That's it.
 
