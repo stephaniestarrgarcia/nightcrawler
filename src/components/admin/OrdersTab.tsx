@@ -6,15 +6,13 @@ import { formatPrice } from '@/lib/money'
 import { adminStageLabels } from '@/lib/stages'
 import { relativeTime } from '@/lib/time'
 import { formatPhone } from '@/lib/validate'
+import { siteUrl, trackerUrl } from '@/lib/site'
 import type { Order, Stage } from '@/lib/db/types'
 
-/** The site's own address, for the tracker links staff hand out. */
-function siteOrigin(): string {
-  return process.env.NEXT_PUBLIC_SITE_URL || (typeof window === 'undefined' ? '' : window.location.origin)
-}
-
+/** The configured address, falling back to whatever the admin is open on. */
 function trackerLink(o: Order): string {
-  return `${siteOrigin()}/track/${o.number}?p=${o.phone.replace(/\D/g, '').slice(-4)}`
+  const origin = siteUrl(typeof window === 'undefined' ? '' : window.location.origin)
+  return trackerUrl(origin, o.number, o.phone)
 }
 
 /**

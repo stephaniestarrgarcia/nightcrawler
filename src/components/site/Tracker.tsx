@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { c, display } from '@/lib/tokens'
 import { formatPrice } from '@/lib/money'
 import { stageCopy, stageLabels } from '@/lib/stages'
+import { siteUrl, trackerUrl } from '@/lib/site'
 import type { Fulfillment, Stage } from '@/lib/db/types'
 
 export interface TrackedOrder {
@@ -37,7 +38,7 @@ export function Tracker({
 
   const link =
     order.proof && typeof window !== 'undefined'
-      ? `${window.location.origin}/track/${order.number}?p=${order.proof}`
+      ? trackerUrl(siteUrl(window.location.origin), order.number, order.proof)
       : null
 
   async function copy() {

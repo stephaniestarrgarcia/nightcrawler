@@ -3,6 +3,7 @@ import type { Order, Stage } from './db/types'
 import { formatPrice } from './money'
 import { stageLabels } from './stages'
 import { toE164 } from './validate'
+import { siteUrl, trackerUrl } from './site'
 
 /**
  * SMS via Twilio, email via Resend. With neither configured every message is
@@ -11,9 +12,7 @@ import { toE164 } from './validate'
  */
 
 function trackerLink(order: Order): string {
-  const base = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
-  const last4 = order.phone.replace(/\D/g, '').slice(-4)
-  return `${base}/track/${order.number}?p=${last4}`
+  return trackerUrl(siteUrl('http://localhost:3000'), order.number, order.phone)
 }
 
 async function sendSms(to: string, body: string): Promise<void> {

@@ -92,6 +92,57 @@ These need real information, not code:
 - Real Instagram and YouTube links
 - Product photography — upload through the admin as it arrives
 
+## Changing the web address
+
+Whether you're attaching a domain for the first time or moving to a new one,
+it's the same two steps — and **both** matter.
+
+### 1 · Point the domain at the site
+
+In Vercel: **your project → Settings → Domains → Add**, and type the domain.
+
+Vercel then shows you the DNS records to create. Go to wherever you bought the
+domain (GoDaddy, Namecheap, Squarespace…), find its DNS settings, and add
+exactly what Vercel showed. Usually:
+
+| Type | Name | Value |
+|---|---|---|
+| `A` | `@` | `76.76.21.21` |
+| `CNAME` | `www` | `cname.vercel-dns.com` |
+
+> Use the values on **your** Vercel screen, not these — they change.
+
+DNS takes anywhere from a few minutes to a few hours. Vercel's domain page
+shows a green tick when it's live, and sorts out the HTTPS certificate itself.
+
+### 2 · Tell the app its new address
+
+This is the step that's easy to forget, and it matters here: this value is what
+builds the tracker links your staff hand to customers. Leave it stale and
+you'll be texting people a link to the old address.
+
+In Vercel: **Settings → Environment Variables**, edit `NEXT_PUBLIC_SITE_URL`:
+
+```
+https://nightcrawler.com
+```
+
+Then **Deployments → ⋯ → Redeploy**. Environment variables only take effect on
+a new deployment.
+
+> Typing it loosely is fine — `nightcrawler.com`, `https://nightcrawler.com/`
+> and `  nightcrawler.com/  ` all end up as the same clean link. Just don't
+> include a path.
+
+### 3 · Check it
+
+Place a test order, open it in the back office, and tap **Copy tracker link**.
+It should start with your new domain. If it doesn't, the redeploy hasn't
+finished or the variable didn't save.
+
+Old links keep working as long as the old domain still points at Vercel, so
+nothing breaks for customers mid-order.
+
 ## How customers hear from you
 
 **No texting service required.** Nothing is sent automatically, and nothing
