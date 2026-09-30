@@ -265,3 +265,4 @@ rm -rf node_modules && mkdir node_modules
 xattr -w 'com.apple.fileprovider.ignore#P' 1 node_modules
 npm install
 ```
+
