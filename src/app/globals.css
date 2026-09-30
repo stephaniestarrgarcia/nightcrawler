@@ -150,6 +150,20 @@ button, input, textarea, select { font-family: inherit; border-radius: 0; }
   transition: background 0.2s, color 0.2s;
 }
 
+.nc-contact {
+  background: none;
+  border: 1px solid var(--umber);
+  color: var(--bone-muted);
+  font-family: inherit;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 9px 12px;
+  transition: border-color 0.2s, color 0.2s;
+}
+.nc-contact:hover { border-color: var(--accent); color: var(--accent); }
+
 .nc-icon-btn {
   background: none;
   border: 1px solid var(--umber);

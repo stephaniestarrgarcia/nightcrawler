@@ -66,7 +66,7 @@ export function useTrackedOrder(saved: SavedOrder | null, initial: TrackedOrder 
         return
       }
       const api = (await res.json()) as ApiOrder
-      setOrder({ ...api, where: saved.where })
+      setOrder({ ...api, where: saved.where, proof: saved.proof })
       setError(null)
     } catch {
       setError('Could not reach the server')

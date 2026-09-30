@@ -16,6 +16,14 @@ export function toE164(input: string): string {
   return `+${d}`
 }
 
+/** E.164 back to something readable for staff: +15552223344 → (555) 222-3344 */
+export function formatPhone(e164: string): string {
+  const d = e164.replace(/\D/g, '')
+  const local = d.length === 11 && d.startsWith('1') ? d.slice(1) : d
+  if (local.length !== 10) return e164
+  return `(${local.slice(0, 3)}) ${local.slice(3, 6)}-${local.slice(6)}`
+}
+
 export const orderSchema = z
   .object({
     location_id: z.string().min(1),

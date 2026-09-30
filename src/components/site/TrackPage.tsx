@@ -43,7 +43,7 @@ export function TrackPage({ saved, initial }: { saved: SavedOrder | null; initia
               {error ?? "We couldn't find that order."}
             </div>
             <div style={{ fontSize: 13, color: c.ashDim, lineHeight: 1.6 }}>
-              Use the link from your confirmation text — it carries the last four digits of your phone number.
+              Use the link you saved when you ordered — it carries the last four digits of your phone number.
             </div>
             <Link href="/" style={{ color: c.accent, fontSize: 12, letterSpacing: '0.2em', textTransform: 'uppercase', paddingTop: 6 }}>
               ← Back to the menu

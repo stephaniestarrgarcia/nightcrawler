@@ -5,7 +5,25 @@ import { c, display } from '@/lib/tokens'
 import { formatPrice } from '@/lib/money'
 import { adminStageLabels } from '@/lib/stages'
 import { relativeTime } from '@/lib/time'
+import { formatPhone } from '@/lib/validate'
 import type { Order, Stage } from '@/lib/db/types'
+
+/** The site's own address, for the tracker links staff hand out. */
+function siteOrigin(): string {
+  return process.env.NEXT_PUBLIC_SITE_URL || (typeof window === 'undefined' ? '' : window.location.origin)
+}
+
+function trackerLink(o: Order): string {
+  return `${siteOrigin()}/track/${o.number}?p=${o.phone.replace(/\D/g, '').slice(-4)}`
+}
+
+/**
+ * `sms:` needs a `?` on Android and tolerates `?&` on iOS, so `?&` is the one
+ * form that opens a pre-filled message on both.
+ */
+function smsHref(o: Order, body: string): string {
+  return `sms:${o.phone}?&body=${encodeURIComponent(body)}`
+}
 
 export function OrdersTab({
   orders,
@@ -99,7 +117,6 @@ export function OrdersTab({
             <div style={{ fontSize: 12, color: c.ash }}>
               {o.customer_name} · {relativeTime(o.created_at)}
             </div>
-            <div style={{ fontSize: 12, color: c.ash }}>{o.phone}</div>
             {delivery && o.address && <div style={{ fontSize: 12, color: c.boneMuted }}>{o.address}</div>}
           </div>
           <div style={{ fontSize: 17, fontWeight: 500, color: c.bone, whiteSpace: 'nowrap' }}>
@@ -111,6 +128,38 @@ export function OrdersTab({
           {o.items
             .map(i => `${i.qty} × ${i.name}${i.size ? ` · ${i.size}` : ''} (${formatPrice(i.price_cents)})`)
             .join(', ')}
+        </div>
+
+        {/* Reaching the customer is manual — these just save the typing. */}
+        <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+          <a href={`tel:${o.phone}`} className="nc-contact">
+            Call {formatPhone(o.phone)}
+          </a>
+          <a
+            // The stage the order is actually at — staff advance it, then text.
+            href={smsHref(
+              o,
+              `Nightcrawler — order ${o.number}: ${labels[o.stage]}. Track it: ${trackerLink(o)}`,
+            )}
+            className="nc-contact"
+          >
+            Text
+          </a>
+          {o.email && (
+            <a
+              href={`mailto:${o.email}?subject=${encodeURIComponent(`Nightcrawler — order ${o.number}`)}&body=${encodeURIComponent(`Track your order: ${trackerLink(o)}`)}`}
+              className="nc-contact"
+            >
+              Email
+            </a>
+          )}
+          <button
+            onClick={() => navigator.clipboard?.writeText(trackerLink(o))}
+            className="nc-contact"
+            style={{ cursor: 'pointer' }}
+          >
+            Copy tracker link
+          </button>
         </div>
 
         <div style={{ display: 'flex', gap: 5 }}>
@@ -148,7 +197,8 @@ export function OrdersTab({
       )}
 
       <div style={{ fontSize: 11, color: c.ashDim, lineHeight: 1.7, padding: '8px 4px' }}>
-        Each tap updates the customer&apos;s live tracker instantly and texts them the new stage.
+        Each tap updates the customer&apos;s live tracker instantly. Reaching them is manual — &ldquo;Text&rdquo;
+        opens your own messages with the new stage already written.
       </div>
 
       {fulfilled.length > 0 && (

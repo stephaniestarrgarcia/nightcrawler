@@ -4,8 +4,10 @@ Implementation of the `design_handoff_nightcrawler` package: a customer storefro
 and a phone-first admin panel for a four-room cannabis brand. No online payment —
 customers pay at pickup or on delivery.
 
-Stack: **Next.js 15 (App Router) + TypeScript**, **Supabase** (Postgres, Storage,
-Realtime), **Resend** (email) and **Twilio** (SMS), deployable on Vercel.
+Stack: **Next.js 15 (App Router) + TypeScript** and **Supabase** (Postgres,
+Storage, Realtime), deployable on Vercel. Customer contact is manual by
+default — see *Reaching the customer* below — with optional **Resend** (email)
+and **Twilio** (SMS) hooks already wired if they're ever wanted.
 
 ---
 
@@ -165,6 +167,22 @@ The admin downscales to 1200px in the browser (canvas) before uploading, so a
 size, then hands it to Storage (or `public/uploads/` on the local driver).
 
 ---
+
+## Reaching the customer
+
+Nothing is sent automatically. The live tracker is the mechanism: the customer's
+page moves the moment staff advance a stage, and they're given the link on screen
+with a copy button rather than being mailed it.
+
+Each order in the back office carries `tel:`, `sms:` and `mailto:` actions, with
+the message pre-written for the stage the order is actually at, plus the tracker
+link. Staff contact people from their own phone, on their own judgement.
+
+`lib/notify.ts` still holds working Resend and Twilio paths for when automatic
+messaging is wanted. With no keys set they log what they would have sent instead
+of sending it, so the flow is visible without credentials. Note that US carriers
+restrict cannabis SMS regardless of state law, which is why manual is the
+default rather than a fallback.
 
 ## Back of house
 

@@ -16,7 +16,8 @@ const pass = (name, detail = '') => console.log(`  \x1b[32m✓\x1b[0m ${name}${d
 const fail = (name, detail) => { failures++; console.log(`  \x1b[31m✗\x1b[0m ${name}${detail ? ` — ${detail}` : ''}`) }
 
 function check(name, cond, detail) {
-  cond ? pass(name, detail) : fail(name, detail)
+  if (cond) pass(name, detail)
+  else fail(name, detail)
 }
 
 /** Asserts a statement is rejected by the database. */

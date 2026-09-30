@@ -92,12 +92,38 @@ These need real information, not code:
 - Real Instagram and YouTube links
 - Product photography — upload through the admin as it arrives
 
-## Text messages and email (later)
+## How customers hear from you
 
-Order confirmations work without this — they just get written to the server log
-instead of sent. When you're ready, add `RESEND_API_KEY` for email and the
-`TWILIO_*` keys for texts.
+**No texting service required.** Nothing is sent automatically, and nothing
+needs approving.
 
-> **Start the Twilio paperwork early.** US carriers treat cannabis as a
-> restricted category, so getting a texting number approved takes days to weeks.
-> Nothing else waits on it.
+When someone orders, the tracker page updates itself live — every time you tap a
+stage in the admin, their page moves within seconds without them refreshing.
+They're shown the link on screen with a **Copy link** button, so they can save
+or screenshot it.
+
+On each order in the back office you get:
+
+- **Call (555) 222-3344** — taps straight into your phone's dialler
+- **Text** — opens your own Messages app with the message already written,
+  including their tracker link
+- **Email** — same, if they left an address
+- **Copy tracker link** — to paste anywhere you like
+
+So you decide who to contact and when, from your own number. Customers see your
+real phone, which is friendlier than an automated shortcode anyway.
+
+## If you ever want it automatic
+
+The code for it is already written and sitting dormant — it just needs keys.
+
+- **Email** is the easy one: sign up at <https://resend.com>, verify your
+  domain, and add `RESEND_API_KEY` and `RESEND_FROM` in Vercel. Order
+  confirmations start sending. No approval process.
+- **Texting** is harder. US carriers restrict cannabis messaging regardless of
+  state law, so a texting number can be rejected or messages silently filtered.
+  If you want to try, add the `TWILIO_*` keys — but check with them first, and
+  don't build your process around it.
+
+Until then every message that *would* have been sent is written to the server
+log instead, so nothing breaks and nothing is lost.

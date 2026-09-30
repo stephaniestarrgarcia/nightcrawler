@@ -317,7 +317,7 @@ export function BagDrawer({
         {/* ------------------------------------------------------ tracker */}
         {step === 'tracking' && order && (
           <div style={{ padding: 28 }}>
-            <Tracker order={order} onNewOrder={onNewOrder} />
+            <Tracker order={order} onNewOrder={onNewOrder} showLink />
           </div>
         )}
       </div>
