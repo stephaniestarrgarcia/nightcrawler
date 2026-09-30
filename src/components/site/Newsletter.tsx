@@ -4,6 +4,15 @@ import { useState } from 'react'
 import { c, display } from '@/lib/tokens'
 import { Photo } from './Photo'
 
+/**
+ * The brand's real accounts. Add a line when an account exists — an empty
+ * list simply renders no buttons, which is better than a link to a homepage
+ * that isn't yours.
+ */
+const SOCIALS: { href: string; label: string }[] = [
+  { href: 'https://www.instagram.com/nightcrawler.delivery', label: 'Instagram ↗' },
+]
+
 export function Newsletter() {
   const [email, setEmail] = useState('')
   const [state, setState] = useState<'idle' | 'saving' | 'done' | 'error'>('idle')
@@ -39,26 +48,27 @@ export function Newsletter() {
             </h2>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 12 }}>
-            {['IG post', 'IG post', 'YT thumbnail'].map((hint, i) => (
+            {['IG post', 'IG post', 'IG post'].map((hint, i) => (
               <div key={i} style={{ aspectRatio: '1' }}>
                 <Photo url={null} alt={hint} hint={hint} />
               </div>
             ))}
           </div>
-          <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
-            {[
-              ['https://instagram.com', 'Instagram ↗'],
-              ['https://youtube.com', 'YouTube ↗'],
-            ].map(([href, label]) => (
-              <a
-                key={href}
-                href={href}
-                style={{ border: `1px solid ${c.umber}`, fontSize: 11, letterSpacing: '0.2em', textTransform: 'uppercase', padding: '12px 24px', color: c.bone }}
-              >
-                {label}
-              </a>
-            ))}
-          </div>
+          {SOCIALS.length > 0 && (
+            <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
+              {SOCIALS.map(({ href, label }) => (
+                <a
+                  key={href}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ border: `1px solid ${c.umber}`, fontSize: 11, letterSpacing: '0.2em', textTransform: 'uppercase', padding: '12px 24px', color: c.bone }}
+                >
+                  {label}
+                </a>
+              ))}
+            </div>
+          )}
         </div>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: 26 }}>
