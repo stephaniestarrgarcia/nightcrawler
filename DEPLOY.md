@@ -98,9 +98,13 @@ These need real information, not code:
 needs approving.
 
 When someone orders, the tracker page updates itself live — every time you tap a
-stage in the admin, their page moves within seconds without them refreshing.
-They're shown the link on screen with a **Copy link** button, so they can save
-or screenshot it.
+stage in the admin, their page moves within about 5–10 seconds, without them
+refreshing anything.
+
+They can always find it again. It opens automatically when they order, the link
+is shown with a **Copy link** button, and their browser remembers the order, so
+coming back to the site later shows a red **NC-4312 · Ready for pickup** button
+in the top bar that reopens the tracker.
 
 On each order in the back office you get:
 

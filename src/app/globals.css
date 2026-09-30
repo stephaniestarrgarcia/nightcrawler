@@ -150,6 +150,32 @@ button, input, textarea, select { font-family: inherit; border-radius: 0; }
   transition: background 0.2s, color 0.2s;
 }
 
+/* A placed order is easy to lose track of when nothing is texted, so it gets
+   a permanent home in the nav until it is collected. */
+.nc-order-pill {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: none;
+  border: 1px solid var(--accent);
+  color: var(--bone);
+  font-family: inherit;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 10px 14px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.2s, color 0.2s;
+}
+.nc-order-pill:hover { background: var(--accent); color: var(--card); }
+.nc-order-pill-short { display: none; }
+
+@media (max-width: 900px) {
+  .nc-order-pill-full { display: none; }
+  .nc-order-pill-short { display: inline; }
+}
+
 .nc-contact {
   background: none;
   border: 1px solid var(--umber);

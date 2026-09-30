@@ -6,6 +6,7 @@ import {
   clearSavedOrder, readSavedOrder, saveOrder, useTrackedOrder, type SavedOrder,
 } from '@/lib/useTrackedOrder'
 import type { Fulfillment, Product, PublicState, Status } from '@/lib/db/types'
+import { stageLabels } from '@/lib/stages'
 import { AgeGate } from './AgeGate'
 import { Nav } from './Nav'
 import { Hero } from './Hero'
@@ -200,6 +201,20 @@ export function SiteApp({
           activeLocation={location}
           onPickLocation={pickLocation}
           cartCount={cart.reduce((n, l) => n + l.qty, 0)}
+          liveOrder={
+            order
+              ? {
+                  number: order.number,
+                  stageLabel: stageLabels(order.fulfillment)[order.stage],
+                  done: order.stage >= 3,
+                }
+              : null
+          }
+          onOpenTracker={() => {
+            setStep('tracking')
+            setBagOpen(true)
+            void reload()
+          }}
           onOpenBag={() => {
             setStep(cart.length === 0 && saved ? 'tracking' : 'bag')
             setBagOpen(true)

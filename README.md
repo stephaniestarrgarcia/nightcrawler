@@ -178,6 +178,12 @@ Each order in the back office carries `tel:`, `sms:` and `mailto:` actions, with
 the message pre-written for the stage the order is actually at, plus the tracker
 link. Staff contact people from their own phone, on their own judgement.
 
+A live order is reachable three ways, which matters more when nothing is texted:
+it opens in the drawer the moment it is placed, the link is shown there with a
+copy button, and a vermilion pill in the nav carries the order number and its
+current stage until it is collected — `localStorage` remembers it across
+visits.
+
 `lib/notify.ts` still holds working Resend and Twilio paths for when automatic
 messaging is wanted. With no keys set they log what they would have sent instead
 of sending it, so the flow is visible without credentials. Note that US carriers

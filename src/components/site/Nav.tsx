@@ -17,12 +17,17 @@ export function Nav({
   onPickLocation,
   cartCount,
   onOpenBag,
+  liveOrder,
+  onOpenTracker,
 }: {
   locations: Location[]
   activeLocation: string
   onPickLocation: (id: string) => void
   cartCount: number
   onOpenBag: () => void
+  /** A placed order still worth watching, shown so it can be found again. */
+  liveOrder: { number: string; stageLabel: string; done: boolean } | null
+  onOpenTracker: () => void
 }) {
   const [menuOpen, setMenuOpen] = useState(false)
 
@@ -69,6 +74,29 @@ export function Nav({
         </div>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+          {liveOrder && (
+            <button
+              onClick={onOpenTracker}
+              className="nc-order-pill"
+              title={`Order ${liveOrder.number} — ${liveOrder.stageLabel}`}
+            >
+              <span
+                aria-hidden
+                style={{
+                  width: 6,
+                  height: 6,
+                  borderRadius: '50%',
+                  background: liveOrder.done ? c.live : c.accent,
+                  flexShrink: 0,
+                }}
+              />
+              <span className="nc-order-pill-full">
+                {liveOrder.number} · {liveOrder.stageLabel}
+              </span>
+              <span className="nc-order-pill-short">Order</span>
+            </button>
+          )}
+
           <label className="nc-nav-links" style={{ display: 'flex' }}>
             <span style={{ position: 'absolute', width: 1, height: 1, overflow: 'hidden', clip: 'rect(0 0 0 0)' }}>
               Shopping from
